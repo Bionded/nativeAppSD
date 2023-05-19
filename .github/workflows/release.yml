@@ -12,6 +12,13 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    strategy:
+      matrix:
+        apps: 
+          [
+            youtube,
+            twitch
+          ]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,22 +34,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get --yes install wine64 imagemagick libfuse2
       - name: Build YouTubeTV
         run: |
-          bash build.sh youtube
-          ls -la ./export/
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses:
-          actions/upload-artifact@v2
+          bash build.sh ${{ matrix.apps }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
-          name: youtube
-          path: ./export/YouTubeTV.AppImage
-      - name: Upload Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: youtube
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          draft: false
-          prerelease: true
+          name: ${{ matrix.apps }}
+          path: ./export/*.AppImage
