@@ -6,9 +6,6 @@ IMPORT_CONFIG_FILE=$1
 #import default config file
 source ./configs/default.config
 
-ls -la
-pwd
-
 #import user config file if exists
 if [ -f "$IMPORT_CONFIG_FILE" ]; then
     source $IMPORT_CONFIG_FILE
@@ -46,6 +43,11 @@ fi
 if [ "$USER_AGENT" != false ] ; then
     NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --user-agent $USER_AGENT"
 fi
+
+echo "##############################################"
+echo "Nativefier arguments:"
+echo $NATIVEFIER_ARGUMENTS
+echo "##############################################"
 
 # run nativefier
 nativefier $NATIVEFIER_ARGUMENTS
