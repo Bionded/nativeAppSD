@@ -19,8 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3.0.2
       - uses: actions/setup-node@v1
-        with:
-          node-version: "16"
       - name: Install Nativefier
         run: npm install -g nativefier
       - name: Setup Dependencies
@@ -28,8 +26,34 @@ jobs:
       - name: Build YouTubeTV
         run: |
           bash build.sh youtube
-
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          path: ./export/*.*
+          tag_name: First Release
+          release_name: Release 0.0.1
+          body: |
+            Changes in this Release:
+            - Added YouTubeTV
+          draft: false
+          prerelease: false
+      - name: Upload Zip Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID
+          asset_path: ./export/YouTubeTV.zip
+          asset_name: YouTubeTV.zip
+          asset_content_type: application/zip
+      - name: Upload AppImage Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID
+          asset_path: ./export/YouTubeTV.AppImage
+          asset_name: YouTubeTV.AppImage
+          asset_content_type: application/AppImage

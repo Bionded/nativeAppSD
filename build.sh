@@ -56,10 +56,10 @@ fi
 nativefier $NATIVEFIER_ARGUMENTS
 mv $FILENAME-build/$APP_NAME-$PLATFORM-$ARCH $APP_NAME-$PLATFORM-$ARCH
 
-zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $APP_NAME-$PLATFORM-$ARCH
+zip -r "$APP_NAME-native-$VERSION-$PLATFORM-$ARCH.zip" $APP_NAME-$PLATFORM-$ARCH
 
 mkdir -p ../export
-mv "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" ../export
+mv "$FILENAME.zip" ../export
 
 
 # argbuilder for AppImage
