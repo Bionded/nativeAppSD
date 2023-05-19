@@ -25,7 +25,6 @@ fi
 mkdir builddir && cd builddir
 
 NATIVEFIER_ARGUMENTS="\"$URL\""
-NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS ./$FILENAME-native"
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --name \"$APP_NAME\""
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --app-version \"$VERSION\""
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --width $WIDTH"
@@ -60,14 +59,14 @@ echo "##############################################"
 # run nativefier
 nativefier $NATIVEFIER_ARGUMENTS
 
-zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $FILENAME-native
+zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $APP_NAME-$PLATFORM-$ARCH
 
 mkdir -p ../export
 mv "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" ../export
 
 
 # argbuilder for AppImage
-mv $FILENAME-native $FILENAME.AppDir
+mv $APP_NAME-$PLATFORM-$ARCH $FILENAME.AppDir
 cp ../icons/$BUILD_PROJ.png $FILENAME.AppDir/$BUILD_PROJ.png
 cd $FILENAME.AppDir
 
