@@ -28,34 +28,8 @@ jobs:
       - name: Build YouTubeTV
         run: |
           bash build.sh youtube
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      - name: artifacts
+        uses: actions/upload-artifact@v2
         with:
-          tag_name: First Release
-          release_name: Release 0.0.1
-          body: |
-            Changes in this Release:
-            - Added YouTubeTV
-          draft: false
-          prerelease: false
-      - name: Upload Zip Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID
-          asset_path: ./export/YouTubeTV.zip
-          asset_name: YouTubeTV.zip
-          asset_content_type: application/zip
-      - name: Upload AppImage Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID
-          asset_path: ./export/YouTubeTV.AppImage
-          asset_name: YouTubeTV.AppImage
-          asset_content_type: application/AppImage
+          name: YouTubeTV AppImage
+          path: ./export/YoutubeTV.AppImage
