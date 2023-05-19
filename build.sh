@@ -1,20 +1,28 @@
 #!/bin/bash
 
 #Parse argument for filepath
-IMPORT_CONFIG_FILE=$1
+BUILD_PROJ=$1
 
 #import default config file
 source ./configs/default.config
 
 #import user config file if exists
 if [ -f "$IMPORT_CONFIG_FILE" ]; then
-    source $IMPORT_CONFIG_FILE
+    source ./configs/$BUILD_PROJ.config
 else
     echo "No user config file found"
     exit 1
 fi
 
+
+# cleanup
+if [ -d "builddir" ]; then
+    rm -rf builddir
+fi
+
+
 # argbuilder for Nativefier
+mkdir builddir && cd builddir
 
 NATIVEFIER_ARGUMENTS="\"$URL\""
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS ./$FILENAME-native"
@@ -51,12 +59,40 @@ echo "##############################################"
 
 # run nativefier
 nativefier $NATIVEFIER_ARGUMENTS
-echo "##############################################"
-ls -la
 
 zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $FILENAME-native
-echo "##############################################"
-ls -la
+
+mkdir -p ../export
+mv "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" ../export
 
 
-ZIP_FILE=$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip
+# argbuilder for AppImage
+mv $FILENAME-native $FILENAME.AppDir
+cp ../icons/$BUILD_PROJ.png $FILENAME.AppDir/$FILENAME.png
+cd $FILENAME.AppDir
+
+echo "[Desktop Entry]" > $FILENAME.desktop
+echo "Name=$APP_NAME" >> $FILENAME.desktop
+echo "Exec=AppRun %U" >> $FILENAME.desktop
+echo "Terminal=false" >> $FILENAME.desktop
+echo "Type=Application" >> $FILENAME.desktop
+echo "Icon=$FILENAME.png" >> $FILENAME.desktop
+echo "X-AppImage-Version=$VERSION" >> $FILENAME.desktop
+echo "Categories=AudioVideo;" >> $FILENAME.desktop
+echo "StartupWMClass=$APP_NAME" >> $FILENAME.desktop
+
+echo "#!/bin/bash" > AppRun
+echo "exec \$APPDIR/$name" >> AppRun
+chmod +x ./AppRun
+
+cd ../
+
+[ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+chmod +x /tmp/appimagetool
+
+/tmp/appimagetool "$FILENAME.AppDir" "$FILENAME.AppImage"
+mv "$FILENAME.AppImage" ../export
+
+
+
+
