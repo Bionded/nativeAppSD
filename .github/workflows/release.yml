@@ -28,6 +28,7 @@ jobs:
       - name: Build YouTubeTV
         run: |
           bash build.sh youtube
+          ls -la ./export/
       - name: artifacts
         uses: actions/upload-artifact@v2
         with:
