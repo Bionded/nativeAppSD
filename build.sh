@@ -51,6 +51,12 @@ echo "##############################################"
 
 # run nativefier
 nativefier $NATIVEFIER_ARGUMENTS
+echo "##############################################"
+ls -la
+
 zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $FILENAME-native
+echo "##############################################"
+ls -la
+
 
 ZIP_FILE=$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip
