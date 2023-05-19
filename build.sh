@@ -7,7 +7,7 @@ BUILD_PROJ=$1
 source ./configs/default.config
 
 #import user config file if exists
-if [ -f "$IMPORT_CONFIG_FILE" ]; then
+if [ -f "./configs/$BUILD_PROJ.config" ]; then
     source ./configs/$BUILD_PROJ.config
 else
     echo "No user config file found"
