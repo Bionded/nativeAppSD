@@ -50,7 +50,7 @@ echo $NATIVEFIER_ARGUMENTS
 echo "##############################################"
 
 # run nativefier
-nativefier "$NATIVEFIER_ARGUMENTS"
+nativefier $NATIVEFIER_ARGUMENTS
 zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" "$FILENAME-native" > /dev/null 2>&1
 
 ZIP_FILE=$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip
