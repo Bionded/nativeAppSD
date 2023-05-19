@@ -68,7 +68,7 @@ mv "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" ../export
 
 # argbuilder for AppImage
 mv $FILENAME-native $FILENAME.AppDir
-cp ../icons/$BUILD_PROJ.png $FILENAME.AppDir/$FILENAME.png
+cp ../icons/$BUILD_PROJ.png $FILENAME.AppDir/$BUILD_PROJ.png
 cd $FILENAME.AppDir
 
 echo "[Desktop Entry]" > $FILENAME.desktop
@@ -76,7 +76,7 @@ echo "Name=$APP_NAME" >> $FILENAME.desktop
 echo "Exec=AppRun %U" >> $FILENAME.desktop
 echo "Terminal=false" >> $FILENAME.desktop
 echo "Type=Application" >> $FILENAME.desktop
-echo "Icon=$FILENAME.png" >> $FILENAME.desktop
+echo "Icon=$BUILD_PROJ.png" >> $FILENAME.desktop
 echo "X-AppImage-Version=$VERSION" >> $FILENAME.desktop
 echo "Categories=AudioVideo;" >> $FILENAME.desktop
 echo "StartupWMClass=$APP_NAME" >> $FILENAME.desktop
