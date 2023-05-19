@@ -25,6 +25,7 @@ fi
 mkdir builddir && cd builddir
 
 NATIVEFIER_ARGUMENTS="\"$URL\""
+NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS $FILENAME-build"
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --name \"$APP_NAME\""
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --app-version \"$VERSION\""
 NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --width $WIDTH"
@@ -51,14 +52,9 @@ if [ "$USER_AGENT" != false ] ; then
     NATIVEFIER_ARGUMENTS="$NATIVEFIER_ARGUMENTS --user-agent \"$USER_AGENT\""
 fi
 
-echo "##############################################"
-echo "Nativefier arguments:"
-echo $NATIVEFIER_ARGUMENTS
-echo "##############################################"
-
 # run nativefier
 nativefier $NATIVEFIER_ARGUMENTS
-ls -la
+mv $FILENAME-build/$APP_NAME-$PLATFORM-$ARCH $APP_NAME-$PLATFORM-$ARCH
 
 zip -r "$FILENAME-native-$VERSION-$PLATFORM-$ARCH.zip" $APP_NAME-$PLATFORM-$ARCH
 
