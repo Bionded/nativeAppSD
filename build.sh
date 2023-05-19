@@ -90,8 +90,8 @@ cd ../
 [ ! -e /tmp/appimagetool ] && wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
 chmod +x /tmp/appimagetool
 
-/tmp/appimagetool "$FILENAME.AppDir" "$FILENAME.AppImage"
-mv "$FILENAME.AppImage" ../export
+/tmp/appimagetool "$FILENAME.AppDir" "$APP_NAME.AppImage"
+mv "$APP_NAME.AppImage" ../export
 
 
 
