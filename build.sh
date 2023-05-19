@@ -6,6 +6,9 @@ IMPORT_CONFIG_FILE=$1
 #import default config file
 source ./configs/default.config
 
+ls -la
+pwd
+
 #import user config file if exists
 if [ -f "$IMPORT_CONFIG_FILE" ]; then
     source $IMPORT_CONFIG_FILE
