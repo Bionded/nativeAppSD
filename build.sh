@@ -82,7 +82,7 @@ echo "Categories=AudioVideo;" >> $FILENAME.desktop
 echo "StartupWMClass=$APP_NAME" >> $FILENAME.desktop
 
 echo "#!/bin/bash" > AppRun
-echo "exec \$APPDIR/$name" >> AppRun
+echo "exec \$APPDIR/$APP_NAME" >> AppRun
 chmod +x ./AppRun
 
 cd ../
