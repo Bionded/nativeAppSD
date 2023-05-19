@@ -29,8 +29,20 @@ jobs:
         run: |
           bash build.sh youtube
           ls -la ./export/
-      - name: artifacts
-        uses: actions/upload-artifact@v2
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses:
+          actions/upload-artifact@v2
         with:
-          name: YouTubeTV AppImage
+          name: youtube
           path: ./export/YouTubeTV.AppImage
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: youtube
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          draft: false
+          prerelease: true
