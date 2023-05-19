@@ -33,53 +33,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get --yes install wine64 imagemagick
       - name: Build
         run: |
-          nativefier --version
-          NATIVEFIERELECTRONVERSION=${{ github.event.inputs.electron-version }} #$(npm show electron version)
-          echo $NATIVEFIERELECTRONVERSION
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p osx
-          mv YouTube\ on\ TV-darwin-x64 YouTubeonTV-darwin-x64
-          zip YouTubeonTV-darwin-x64.zip -r YouTubeonTV-darwin-x64 > /dev/null 2>&1
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p osx -a arm64
-          mv YouTube\ on\ TV-darwin-arm64 YouTubeonTV-darwin-arm64
-          zip YouTubeonTV-darwin-arm64.zip -r YouTubeonTV-darwin-arm64 > /dev/null 2>&1
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p windows
-          mv YouTube\ on\ TV-win32-x64 YouTubeonTV-win32-x64
-          zip YouTubeonTV-win32-x64.zip -r YouTubeonTV-win32-x64 > /dev/null 2>&1
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p windows -a arm64
-          mv YouTube\ on\ TV-win32-arm64 YouTubeonTV-win32-arm64
-          zip YouTubeonTV-win32-arm64.zip -r YouTubeonTV-win32-arm64 > /dev/null 2>&1
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p linux -a arm64
-          zip YouTubeonTV-linux-arm64.zip -r YouTubeonTV-linux-arm64 > /dev/null 2>&1
-          nativefier "https://youtube.com/tv" -u "Roku/DVP-9.10 (519.10E04111A)" -n "YouTube on TV" -p linux -a x64
-          zip YouTubeonTV-linux-x64.zip -r YouTubeonTV-linux-x64 > /dev/null 2>&1
+          bash build.sh ./configs/youtube.config.json
 
       - name: Publish Arifacts
         uses: actions/upload-artifact@v2
         with:
-          name: YouTubeonTV-darwin-x64
-          path: YouTubeonTV-darwin-x64.zip
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: YouTubeonTV-darwin-arm64
-          path: YouTubeonTV-darwin-arm64.zip
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: YouTubeonTV-win32-x64
-          path: YouTubeonTV-win32-x64.zip
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: YouTubeonTV-win32-arm64
-          path: YouTubeonTV-win32-arm64.zip
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: YouTubeonTV-linux-arm64
-          path: YouTubeonTV-linux-arm64.zip
-      - name: Publish Arifacts
-        uses: actions/upload-artifact@v2
-        with:
           name: YouTubeonTV-linux-x64
-          path: YouTubeonTV-linux-x64.zip
+          path: *.zip
